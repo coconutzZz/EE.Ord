@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="StorageBroker.Patients.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EE.Ord.Domain\EE.Ord.Domain.csproj" />
+    <ProjectReference Include="..\EE.Ord.Infrastructure.EntityFramework\EE.Ord.Infrastructure.EntityFramework.csproj" />
+    <ProjectReference Include="..\EE.Ord.Infrastructure\EE.Ord.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
