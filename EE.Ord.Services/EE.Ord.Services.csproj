@@ -4,4 +4,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EE.Ord.Shared.Database.Main\EE.Ord.Shared.Database.Main.csproj" />
+  </ItemGroup>
+
 </Project>
