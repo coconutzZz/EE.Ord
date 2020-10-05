@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{A8
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{D0F1739B-B703-43DE-82DE-6079132361F0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EE.Ord.Infrastructure.Web", "EE.Ord.Infrastructure.Web\EE.Ord.Infrastructure.Web.csproj", "{A4CAF020-84B1-4BC7-BA76-F7DD1855766B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{D0A6D72B-C98E-4C85-AF77-3EF8F2CBAFF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0A6D72B-C98E-4C85-AF77-3EF8F2CBAFF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0A6D72B-C98E-4C85-AF77-3EF8F2CBAFF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4CAF020-84B1-4BC7-BA76-F7DD1855766B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4CAF020-84B1-4BC7-BA76-F7DD1855766B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4CAF020-84B1-4BC7-BA76-F7DD1855766B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4CAF020-84B1-4BC7-BA76-F7DD1855766B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,6 +75,7 @@ Global
 		{BB8BFF9B-7A04-4CD0-98E7-097036C2644A} = {7E55ED60-A889-4516-AC1A-B8BCD04D0A07}
 		{420A2375-B08D-40B2-8237-1E4DA6DEDC12} = {A8940DD3-FD8F-470B-AD71-BF2E6DF246C5}
 		{24F58CEA-7293-4FCA-BB97-0F5E9AB0DE73} = {D0F1739B-B703-43DE-82DE-6079132361F0}
+		{A4CAF020-84B1-4BC7-BA76-F7DD1855766B} = {7E55ED60-A889-4516-AC1A-B8BCD04D0A07}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C4B22E16-B411-4393-B888-FB81751A48EC}

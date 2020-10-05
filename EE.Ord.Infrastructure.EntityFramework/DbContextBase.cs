@@ -44,7 +44,7 @@ namespace EE.Ord.Infrastructure.EntityFramework
                 .Where(p => p.State == EntityState.Modified).Select(p => p.Entity);
 
 
-            var now = DateTimeOffset.UtcNow;
+            var now = DateTime.UtcNow;
             var user = _infrastructureUser;
             
             foreach (var entity in addedEntities)

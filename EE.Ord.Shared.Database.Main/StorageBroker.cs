@@ -1,10 +1,14 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using EE.Ord.Domain.MasterData;
 using EE.Ord.Infrastructure;
 using EE.Ord.Infrastructure.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
+
 namespace EE.Ord.Shared.Database.Main
 {
     public partial class StorageBroker : DbContextBase, IStorageBroker
