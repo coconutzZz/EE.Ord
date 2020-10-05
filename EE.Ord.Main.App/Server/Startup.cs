@@ -55,6 +55,7 @@ namespace EE.Ord.Main.App.Server
 
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
+            app.UseStaticFiles();
 
             app.UseRouting();
 
