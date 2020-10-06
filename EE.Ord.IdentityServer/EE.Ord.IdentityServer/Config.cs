@@ -13,7 +13,10 @@ namespace EE.Ord.IdentityServer
         public static IEnumerable<IdentityResource> IdentityResources =>
             new IdentityResource[]
             {
+                new IdentityResources.Address(), 
+                new IdentityResources.Phone(),
                 new IdentityResources.OpenId(),
+                new IdentityResources.Email(),
                 new IdentityResources.Profile(),
             };
 
@@ -28,7 +31,7 @@ namespace EE.Ord.IdentityServer
             {
                 new Client
                 {
-                    ClientId = "patrec",
+                    ClientId = "blazorapi",
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     ClientSecrets =
                     {
@@ -39,23 +42,33 @@ namespace EE.Ord.IdentityServer
                 new Client
                 {
                     ClientId = "blazor",
+                    RequirePkce = true,
                     RequireClientSecret = false,
-                    RequirePkce = false,
-                    AllowedCorsOrigins = { "https://localhost:5001" },
+                    AllowedCorsOrigins = { "https://localhost:44316" },
                     //ClientSecrets = { new Secret("secret".Sha256()) },
-
+                    RequireConsent = false,
+                    AlwaysIncludeUserClaimsInIdToken = true,
                     AllowedGrantTypes = GrantTypes.Code,
                     
                     // where to redirect to after login
-                    RedirectUris = { "https://localhost:5001/authentication/login-callback" },
+                    RedirectUris = { "https://localhost:44316/authentication/login-callback" },
 
                     // where to redirect to after logout
-                    PostLogoutRedirectUris = { "https://localhost:5001/" },
+                    PostLogoutRedirectUris = { "https://localhost:44316/" },
+
+                    Claims = new List<ClientClaim>
+                        {
+                            new ClientClaim("name", "test")
+                        },
 
                     AllowedScopes = new List<string>
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Address,
+                        IdentityServerConstants.StandardScopes.Email,
+                        IdentityServerConstants.StandardScopes.Phone
+
                     }
                 }
             };

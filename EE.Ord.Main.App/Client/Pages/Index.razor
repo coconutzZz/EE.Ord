@@ -1,3 +1,22 @@
 ﻿@page "/"
+@using EE.Ord.Domain.MasterData
+@using EE.Ord.Main.App.Client.HttpRepository
+
+
+@inject IPatientHttpRepository PatientHttpRepository
+
 
 <h1>Hello, world!</h1>
+
+
+@code {
+
+    
+    IList<Patient> _patients;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _patients = await PatientHttpRepository.GetPatients();
+    }
+
+}

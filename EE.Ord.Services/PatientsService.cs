@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using EE.Ord.Domain.MasterData;
 using EE.Ord.Shared.Database.Main;
 
@@ -14,7 +16,25 @@ namespace EE.Ord.Services
         }
 
         public async ValueTask<Patient> AddNewPatient(Patient patient) => await _storageBroker.InsertPatientAsync(patient);
+        public ValueTask<Patient> RetrievePatientByIdAsync(Guid patientId)
+        {
+            throw new NotImplementedException();
+        }
 
+        public ValueTask<Patient> ModifyPatientAsync(Patient patient)
+        {
+            throw new NotImplementedException();
+        }
 
+        public ValueTask<Patient> DeletePatientAsync(Guid patientId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQueryable<Patient> RetrieveAllPatients()
+        {
+            IQueryable<Patient> storagePatients = _storageBroker.SelectAllPatients();
+            return storagePatients;
+        }
     }
 }

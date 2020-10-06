@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.8" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="3.2.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.8">
@@ -20,12 +21,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\EE.Ord.Infrastructure.Web\EE.Ord.Infrastructure.Web.csproj" />
+    <ProjectReference Include="..\..\EE.Ord.Services\EE.Ord.Services.csproj" />
     <ProjectReference Include="..\..\EE.Ord.Shared.Database.Main\EE.Ord.Shared.Database.Main.csproj" />
     <ProjectReference Include="..\Client\EE.Ord.Main.App.Client.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
   </ItemGroup>
 
 

@@ -1,15 +1,47 @@
 ﻿@inherits LayoutComponentBase
-
+@inject NavigationManager Navigation
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inject SignOutSessionStateManager SignOutManager
 <div class="sidebar">
 </div>
 
 <div class="main">
     <div class="top-row px-4">
-        <DxButton RenderStyle="ButtonRenderStyle.None" RenderStyleMode="ButtonRenderStyleMode.Contained" Text="None" SizeMode="SizeMode.Small" />
-        <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
+        <DxButton Click="@Login" RenderStyle="ButtonRenderStyle.None" RenderStyleMode="ButtonRenderStyleMode.Contained" Text="None" SizeMode="SizeMode.Small" />
+        <a href="/claims" target="_blank" class="ml-md-auto">About</a>
+        
+        <AuthorizeView>
+            <Authorized>
+                <a href="authentication/profile">Hello, @context.User.Identity.Name!</a>
+              
+                <button class="nav-link btn btn-link" @onclick="BeginSignOut">
+                    Log out
+                </button>
+            </Authorized>
+            <NotAuthorized>
+                <a href="authentication/register">Register</a>
+                <a href="authentication/login">Log in</a>
+            </NotAuthorized>
+        </AuthorizeView>
     </div>
 
     <div class="content px-4">
         @Body
     </div>
 </div>
+
+@code
+{
+    private void Login()
+    {
+        Navigation.NavigateTo($"authentication/login?returnUrl=" +
+                              Uri.EscapeDataString(Navigation.Uri));
+
+    }
+
+    private async Task BeginSignOut(MouseEventArgs args)
+    {
+        await SignOutManager.SetSignOutState();
+        Navigation.NavigateTo("authentication/logout");
+    }
+}

@@ -6,12 +6,17 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using EE.Ord.Infrastructure;
 using EE.Ord.Infrastructure.Web;
+using EE.Ord.Services;
 using EE.Ord.Shared.Database.Main;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.IdentityModel.Tokens;
 
 namespace EE.Ord.Main.App.Server
 {
@@ -24,6 +29,8 @@ namespace EE.Ord.Main.App.Server
 
         public IConfiguration Configuration { get; }
 
+        readonly string AllowSpecificOrigins = "AllowSpecificOrigins";
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -33,8 +40,31 @@ namespace EE.Ord.Main.App.Server
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
             });
 
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", jwtOptions =>
+                {
+                    Configuration.Bind("Local", jwtOptions);
+
+                    var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("secret"));
+                    jwtOptions.TokenValidationParameters.IssuerSigningKey = signingKey;
+
+                    services.AddCors(corsOptions =>
+                    {
+                        corsOptions.AddPolicy(name: AllowSpecificOrigins,
+                            builder =>
+                            {
+                                builder.WithOrigins(jwtOptions.Authority);
+                            });
+                    });
+                });
+
+            
+
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IInfrastructureUser, WebUser>();
+            services.AddScoped<IStorageBroker, StorageBroker>();
+            services.AddScoped<IPatientsService, PatientsService>();
+
             services.AddControllers();
         }
 
@@ -56,6 +86,9 @@ namespace EE.Ord.Main.App.Server
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
+            app.UseCors(AllowSpecificOrigins);
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseRouting();
 

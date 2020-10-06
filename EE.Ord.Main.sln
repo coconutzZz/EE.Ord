@@ -13,9 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EE.Ord.Services", "EE.Ord.S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EE.Ord.Shared.Database.Main", "EE.Ord.Shared.Database.Main\EE.Ord.Shared.Database.Main.csproj", "{24F58CEA-7293-4FCA-BB97-0F5E9AB0DE73}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EE.Ord.Main.App.Server", "EE.Ord.Main.App\Server\EE.Ord.Main.App.Server.csproj", "{573B01BF-8906-4A80-8C25-B1D8E995BE4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EE.Ord.Main.App.Server", "EE.Ord.Main.App\Server\EE.Ord.Main.App.Server.csproj", "{573B01BF-8906-4A80-8C25-B1D8E995BE4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EE.Ord.Main.App.Client", "EE.Ord.Main.App\Client\EE.Ord.Main.App.Client.csproj", "{D0A6D72B-C98E-4C85-AF77-3EF8F2CBAFF0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EE.Ord.Main.App.Client", "EE.Ord.Main.App\Client\EE.Ord.Main.App.Client.csproj", "{D0A6D72B-C98E-4C85-AF77-3EF8F2CBAFF0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{A3478810-EF45-40B2-BD18-8EACC847FF69}"
 EndProject
@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{A8
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{D0F1739B-B703-43DE-82DE-6079132361F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EE.Ord.Infrastructure.Web", "EE.Ord.Infrastructure.Web\EE.Ord.Infrastructure.Web.csproj", "{A4CAF020-84B1-4BC7-BA76-F7DD1855766B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EE.Ord.Infrastructure.Web", "EE.Ord.Infrastructure.Web\EE.Ord.Infrastructure.Web.csproj", "{A4CAF020-84B1-4BC7-BA76-F7DD1855766B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
