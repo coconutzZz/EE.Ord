@@ -58,7 +58,9 @@ namespace EE.Ord.IdentityServer
                     // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
                     options.EmitStaticAudienceClaim = true;
 
-                    options.UserInteraction.LoginUrl = "login";
+                    options.UserInteraction.LoginUrl = "/login";
+                    options.UserInteraction.LogoutUrl = "/logout";
+                    
                 }).AddConfigurationStore(options =>
                 {
                     options.ConfigureDbContext = b =>

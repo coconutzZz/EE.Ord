@@ -31,6 +31,7 @@ namespace EE.Ord.IdentityServer.Pages
         [BindProperty]
         public string Password { get; set; }
 
+        [BindProperty]
         public string ReturnUrl { get; set; }
 
 
