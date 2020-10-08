@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EE.Ord.Main.DbSeeder
 {
+    // todo: add Install-Package RandomDataGenerator.Net -Version 1.0.12 to generate random data 
     class Program
     {
         private static Random random = new Random((int)DateTime.Now.Ticks);//thanks to McAden
