@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{D0F173
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EE.Ord.Infrastructure.Web", "EE.Ord.Infrastructure.Web\EE.Ord.Infrastructure.Web.csproj", "{A4CAF020-84B1-4BC7-BA76-F7DD1855766B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EE.Ord.Main.DbSeeder", "EE.Ord.Main.DbSeeder\EE.Ord.Main.DbSeeder.csproj", "{AEC7DBCA-C42C-4916-BC25-1A79EF1940F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EE.Ord.Main.DbSeeder", "EE.Ord.Main.DbSeeder\EE.Ord.Main.DbSeeder.csproj", "{AEC7DBCA-C42C-4916-BC25-1A79EF1940F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

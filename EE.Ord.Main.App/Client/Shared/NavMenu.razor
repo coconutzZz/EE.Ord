@@ -1,0 +1,39 @@
+﻿<DxTreeView @ref="@treeView"
+            CssClass="app-sidebar"
+            ExpandButtonIconCssClass="icon-expand"
+            CollapseButtonIconCssClass="icon-collapse"
+            AllowSelectNodes="true"
+            NodeExpandCollapseAction="TreeViewNodeExpandCollapseAction.NodeClick"
+            BeforeExpand="@BeforeExpand"
+            SelectionChanged="@SelectionChanged">
+    <Nodes>
+        <DxTreeViewNode Text="Patients">
+            <Nodes>
+                <DxTreeViewNode Text="Overview"></DxTreeViewNode>
+            </Nodes>
+        </DxTreeViewNode>
+    </Nodes>
+</DxTreeView>
+
+
+@code {
+    DxTreeView treeView;
+
+    protected void SelectionChanged(TreeViewNodeEventArgs e) {
+        if (e.NodeInfo.IsLeaf) {
+            var parentInfo = e.NodeInfo.Parent;
+            if (parentInfo != null) {
+                var parentSiblingNodesInfo = treeView.GetNodesInfo(n => !n.IsLeaf && n.Level == parentInfo.Level && !string.Equals(n.Text, parentInfo.Text));
+                foreach (var nodeInfo in parentSiblingNodesInfo)
+                    treeView.SetNodeExpanded(n => string.Equals(n.Text, nodeInfo.Text), false);
+            }
+            else
+                treeView.CollapseAll();
+        }
+    }
+
+    protected void BeforeExpand(TreeViewNodeCancelEventArgs e) {
+        if (!e.CausedByAPI)
+            treeView.CollapseAll();
+    }
+}

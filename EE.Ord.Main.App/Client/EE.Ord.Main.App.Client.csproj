@@ -23,4 +23,9 @@
     <ProjectReference Include="..\..\EE.Ord.Domain\EE.Ord.Domain.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
 </Project>

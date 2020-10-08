@@ -1,0 +1,42 @@
+﻿@implements IDisposable
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+
+<button class="navbar-toggler d-block bg-primary border-0" @onclick="@OnToggleButtonClick">
+    <span class="navbar-toggler-icon"></span>
+</button>
+
+@code {
+    bool _isToggled;
+    
+    async Task OnToggleButtonClick() => await ToggleState(!_isToggled);
+    [Parameter] public string StateCssClass { get; set; }
+    [Parameter] public EventCallback<string> StateCssClassChanged { get; set; }
+
+    protected override void OnInitialized() {
+        NavigationManager.LocationChanged += OnLocationChanged;
+    }
+
+    async void OnLocationChanged(object sender, LocationChangedEventArgs args)
+    {
+        await ToggleState(false);
+    }
+    
+    async Task ToggleState(bool isToggled)
+    {
+        if (_isToggled != isToggled)
+        {
+            _isToggled = isToggled;
+            string stateCssClass = _isToggled ? "desktop-sidebar-hidden" : "desktop-sidebar-shown";
+           
+            if(StateCssClass != stateCssClass) {
+                StateCssClass = stateCssClass;
+                await StateCssClassChanged.InvokeAsync(StateCssClass);
+            }
+        }
+    }
+
+    public void Dispose() {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+}
