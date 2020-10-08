@@ -58,8 +58,6 @@ namespace EE.Ord.Main.App.Server
                     });
                 });
 
-            
-
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IInfrastructureUser, WebUser>();
             services.AddScoped<IStorageBroker, StorageBroker>();
@@ -75,6 +73,7 @@ namespace EE.Ord.Main.App.Server
             {
                 app.UseDeveloperExceptionPage();
                 app.UseWebAssemblyDebugging();
+                InitializeDatabase(app);
             }
             else
             {
@@ -98,6 +97,17 @@ namespace EE.Ord.Main.App.Server
                 endpoints.MapControllers();
                 endpoints.MapFallbackToFile("index.html");
             });
+        }
+
+        private void InitializeDatabase(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                serviceScope.ServiceProvider.GetRequiredService<StorageBroker>().Database.Migrate();
+
+                var context = serviceScope.ServiceProvider.GetRequiredService<StorageBroker>();
+                context.Database.Migrate();
+            }
         }
     }
 }

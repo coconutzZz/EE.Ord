@@ -333,4 +333,4 @@ BuildOutput/
 .sonarqube
 
 # Sqlite DB
-*.db
+*.prod.db
