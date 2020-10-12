@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EE.Ord.Main.App.Server.Migrations
 {
     [DbContext(typeof(StorageBroker))]
-    [Migration("20201012150241_NotePatientsRelation")]
-    partial class NotePatientsRelation
+    [Migration("20201012160924_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -88,7 +88,7 @@ namespace EE.Ord.Main.App.Server.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("SimplePatientNote");
+                    b.ToTable("SimplePatientNotes");
                 });
 
             modelBuilder.Entity("EE.Ord.Domain.MasterData.PatientFiles.SimplePatientNote", b =>

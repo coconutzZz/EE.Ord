@@ -27,7 +27,7 @@ namespace EE.Ord.Main.App.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SimplePatientNote",
+                name: "SimplePatientNotes",
                 columns: table => new
                 {
                     SimplePatientNoteId = table.Column<Guid>(nullable: false),
@@ -41,9 +41,9 @@ namespace EE.Ord.Main.App.Server.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SimplePatientNote", x => x.SimplePatientNoteId);
+                    table.PrimaryKey("PK_SimplePatientNotes", x => x.SimplePatientNoteId);
                     table.ForeignKey(
-                        name: "FK_SimplePatientNote_Patients_PatientId",
+                        name: "FK_SimplePatientNotes_Patients_PatientId",
                         column: x => x.PatientId,
                         principalTable: "Patients",
                         principalColumn: "PatientId",
@@ -51,15 +51,15 @@ namespace EE.Ord.Main.App.Server.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_SimplePatientNote_PatientId",
-                table: "SimplePatientNote",
+                name: "IX_SimplePatientNotes_PatientId",
+                table: "SimplePatientNotes",
                 column: "PatientId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "SimplePatientNote");
+                name: "SimplePatientNotes");
 
             migrationBuilder.DropTable(
                 name: "Patients");

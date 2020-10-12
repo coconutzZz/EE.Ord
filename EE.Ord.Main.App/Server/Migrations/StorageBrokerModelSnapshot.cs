@@ -86,7 +86,7 @@ namespace EE.Ord.Main.App.Server.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("SimplePatientNote");
+                    b.ToTable("SimplePatientNotes");
                 });
 
             modelBuilder.Entity("EE.Ord.Domain.MasterData.PatientFiles.SimplePatientNote", b =>
