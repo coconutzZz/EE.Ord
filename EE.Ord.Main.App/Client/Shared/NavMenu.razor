@@ -1,4 +1,7 @@
-﻿<DxTreeView @ref="@treeView"
+﻿@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<App> Localize
+
+<DxTreeView @ref="@treeView"
             CssClass="app-sidebar"
             ExpandButtonIconCssClass="icon-expand"
             CollapseButtonIconCssClass="icon-collapse"
@@ -7,9 +10,9 @@
             BeforeExpand="@BeforeExpand"
             SelectionChanged="@SelectionChanged">
     <Nodes>
-        <DxTreeViewNode Text="Patients">
+        <DxTreeViewNode Text="@Localize["Patients"]">
             <Nodes>
-                <DxTreeViewNode Text="Overview"></DxTreeViewNode>
+                <DxTreeViewNode Text="@Localize["Overview"]"></DxTreeViewNode>
             </Nodes>
         </DxTreeViewNode>
     </Nodes>

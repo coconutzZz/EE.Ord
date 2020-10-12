@@ -2,56 +2,66 @@
 using System.Collections.Generic;
 using System.Linq;
 using EE.Ord.Domain.MasterData;
+using EE.Ord.Domain.MasterData.PatientFiles;
 using EE.Ord.Infrastructure;
 using EE.Ord.Shared.Database.Main;
 using Microsoft.EntityFrameworkCore;
+using RandomDataGenerator.FieldOptions;
+using RandomDataGenerator.Randomizers;
 
 namespace EE.Ord.Main.DbSeeder
 {
-    // todo: add Install-Package RandomDataGenerator.Net -Version 1.0.12 to generate random data 
     class Program
     {
-        private static Random random = new Random((int)DateTime.Now.Ticks);//thanks to McAden
-
-        static long LongRandom(long maxValue, long minValue)
-        {
-            return (long)Math.Round(random.NextDouble() * (maxValue - minValue - 1)) + minValue;
-
-        }
-
-        static string RandomString(int length)
-        {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            string randomString = new string(Enumerable.Repeat(chars, length)
-                .Select(s => s[random.Next(s.Length)]).ToArray()).ToLower();
-            return randomString.First().ToString().ToUpper() + randomString.Substring(1);
-        }
-
-
         static void Main(string[] args)
         {
             Dictionary<long, int> insuranceNumbers = new Dictionary<long, int>();
 
             IInfrastructureUser user = new SimpleUser("Seeder", Guid.NewGuid(), 0);
-           
+
+            var randomizerFirstName = RandomizerFactory.GetRandomizer(new FieldOptionsFirstName());
+            var randomizerLastName = RandomizerFactory.GetRandomizer(new FieldOptionsLastName());
+            var randomizerDateOfBirth = RandomizerFactory.GetRandomizer(new FieldOptionsDateTime() {  From = DateTime.UtcNow.AddYears(-90), To = DateTime.UtcNow.AddMonths(-2) });
+            var randomizerInsuranceNumber = RandomizerFactory.GetRandomizer(new FieldOptionsLong() { Min = 1000000000, Max = 9999999999 });
+
+            var randomizerLipsum= RandomizerFactory.GetRandomizer(new FieldOptionsTextLipsum());
+            var randomizerTitles = RandomizerFactory.GetRandomizer(new FieldOptionsTextWords() {Min = 1, Max = 3, UseNullValues = false});
+
+            var randomizerNumber = RandomizerFactory.GetRandomizer(new FieldOptionsInteger() {Min = 1, Max = 20, UseNullValues = false});
+
             using (var context = new SeedContext(new DbContextOptions<SeedContext>(), user))
             {
                 for (int i = 0; i < 10000; i++)
                 {
                     var patient = new Patient
                     {
-                        FirstName = RandomString(random.Next(4, 15)),
-                        LastName = RandomString(random.Next(4, 15)),
+                        FirstName = randomizerFirstName.Generate(),
+                        LastName = randomizerLastName.Generate(),
+                        DateOfBirth = randomizerDateOfBirth.Generate()
                     };
 
-                    long insuranceNumber = LongRandom(9999999999, 1000000000);
+                    long insuranceNumber = randomizerInsuranceNumber.Generate().Value;
 
                     while (!insuranceNumbers.TryAdd(insuranceNumber, i))
                     {
-                        insuranceNumber = LongRandom(9999999999,1000000000);
+                        insuranceNumber = randomizerInsuranceNumber.Generate().Value;
                     }
 
                     patient.InsuranceNumber = insuranceNumber;
+
+                    int numNotes = randomizerNumber.Generate().Value;
+
+                    for (int j = 0; j <= numNotes; j++)
+                    {
+                        var note = new SimplePatientNote
+                        {
+                            Content = randomizerLipsum.Generate(),
+                            Title = randomizerTitles.Generate(),
+                            Patient = patient
+                        };
+
+                        context.SimplePatientNotes.Add(note);
+                    }
 
                     context.Patients.Add(patient);
                 }

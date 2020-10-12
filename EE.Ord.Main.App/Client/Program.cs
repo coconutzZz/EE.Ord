@@ -40,7 +40,7 @@ namespace EE.Ord.Main.App.Client
             });
 
             builder.Services.AddDevExpressBlazor();
-            
+            builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
             await builder.Build().RunAsync();
         }
     }
