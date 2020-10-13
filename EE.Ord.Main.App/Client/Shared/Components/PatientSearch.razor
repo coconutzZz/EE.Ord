@@ -1,0 +1,36 @@
+﻿@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<App> Localize
+
+<DxFormLayout>
+    <DxFormLayoutGroup Caption="@Localize["Find patient"]" ColSpanMd="12">
+        <DxFormLayoutItem Caption="@Localize["Insurance number"]" ColSpanMd="6">
+            <Template>
+                <DxTextBox @bind-Text="@InsuranceNumber"></DxTextBox>
+            </Template>
+        </DxFormLayoutItem>
+
+        <DxFormLayoutItem Caption="@Localize["First Name"]" ColSpanMd="6">
+            <Template>
+                <DxTextBox @bind-Text="@FirstName"></DxTextBox>
+            </Template>
+        </DxFormLayoutItem>
+
+        <DxFormLayoutItem Caption="@Localize["Last Name"]" ColSpanMd="6">
+            <Template>
+                <DxTextBox @bind-Text="@LastName"></DxTextBox>
+            </Template>
+        </DxFormLayoutItem>
+
+        <DxFormLayoutItem Caption="@Localize["Birth Date"]" ColSpanMd="6">
+            <Template>
+                <DxDateEdit @bind-Date="@BirthDate"></DxDateEdit>
+            </Template>
+        </DxFormLayoutItem>
+    </DxFormLayoutGroup>
+</DxFormLayout>
+@code {
+    string InsuranceNumber { get; set; }
+    string FirstName { get; set; } 
+    string LastName { get; set; } 
+    DateTime BirthDate { get; set; }
+}
