@@ -1,8 +1,10 @@
 ﻿@inherits LayoutComponentBase
-@inject NavigationManager Navigation
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@inject SignOutSessionStateManager SignOutManager
+@using Microsoft.Extensions.Localization
 
+@inject NavigationManager Navigation
+@inject SignOutSessionStateManager SignOutManager
+@inject IStringLocalizer<App> Localize
 
 <nav class="logo-container p-0 navbar navbar-dark">
     <LayoutToggleButton @bind-StateCssClass="@LayoutStateCssClass" />
@@ -10,14 +12,16 @@
     <div class="d-flex">
         <AuthorizeView>
             <Authorized>
-                <span>Hello, @context.User.Identity.Name!</span>
+                <span>@context.User.Identity.Name</span>
                 <button class="download-btn navbar-toggler d-inline-block bg-primary text-white border-0" @onclick="BeginSignOut">
-                    Log out
+                    @Localize["Log out"]
                 </button>
             </Authorized>
+            @*
             <NotAuthorized>
                 <a class="download-btn navbar-toggler d-inline-block bg-primary text-white border-0" href="authentication/login">Log in</a>
             </NotAuthorized>
+            *@
         </AuthorizeView>
     </div>
 </nav>
