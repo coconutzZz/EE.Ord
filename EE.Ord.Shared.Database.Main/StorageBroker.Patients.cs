@@ -29,6 +29,7 @@ namespace EE.Ord.Shared.Database.Main
             return await Patients.FindAsync(patientId);
         }
 
+
         public async ValueTask<Patient> UpdatePatientAsync(Patient patient)
         {
             EntityEntry<Patient> patientEntityEntry = Patients.Update(patient);

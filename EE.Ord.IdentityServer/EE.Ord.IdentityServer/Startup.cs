@@ -2,14 +2,24 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using System;
 using System.Reflection;
+using System.Security.Claims;
+using System.Linq;
+using EE.Ord.IdentityServer.Data;
+using EE.Ord.IdentityServer.Models;
+using IdentityModel;
 using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServer4.EntityFramework.Mappers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace EE.Ord.IdentityServer
 {
@@ -28,28 +38,45 @@ namespace EE.Ord.IdentityServer
         {
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
             
-            services.AddControllersWithViews();
-
-            var builder = services.AddIdentityServer(options =>
+            services.AddRazorPages();
+            services.AddMvc().AddRazorPagesOptions(options =>
             {
-                // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
-                options.EmitStaticAudienceClaim = true;
-            }).AddConfigurationStore(options =>
-            {
-                options.ConfigureDbContext = b =>
-                    b.UseSqlite(Configuration.GetConnectionString("DefaultConnection"), contextOptionsBuilder => contextOptionsBuilder.MigrationsAssembly(migrationsAssembly));
-            }).AddOperationalStore(options =>
-            {
-                options.ConfigureDbContext = b =>
-                    b.UseSqlite(Configuration.GetConnectionString("DefaultConnection"), contextOptionsBuilder => contextOptionsBuilder.MigrationsAssembly(migrationsAssembly));
+                options.Conventions.AddPageRoute("/login", "");
             });
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddIdentityServer(options =>
+                {
+                    // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
+                    options.EmitStaticAudienceClaim = true;
+
+                    options.UserInteraction.LoginUrl = "/login";
+                    options.UserInteraction.LogoutUrl = "/logout";
+                    
+                }).AddConfigurationStore(options =>
+                {
+                    options.ConfigureDbContext = b =>
+                        b.UseSqlite(Configuration.GetConnectionString("DefaultConnection"),
+                            contextOptionsBuilder => contextOptionsBuilder.MigrationsAssembly(migrationsAssembly));
+                }).AddOperationalStore(options =>
+                {
+                    options.ConfigureDbContext = b =>
+                        b.UseSqlite(Configuration.GetConnectionString("DefaultConnection"),
+                            contextOptionsBuilder => contextOptionsBuilder.MigrationsAssembly(migrationsAssembly));
+                }).AddDeveloperSigningCredential()
+                .AddAspNetIdentity<ApplicationUser>();
 
             //.AddInMemoryIdentityResources(Config.IdentityResources)
             //.AddInMemoryApiScopes(Config.ApiScopes)
             //.AddInMemoryClients(Config.Clients);
-
-            // not recommended for production - you need to store your key material somewhere secure
-            builder.AddDeveloperSigningCredential();
         }
 
         public void Configure(IApplicationBuilder app)
@@ -68,7 +95,7 @@ namespace EE.Ord.IdentityServer
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapDefaultControllerRoute();
+                endpoints.MapRazorPages();
             });
         }
 
@@ -79,6 +106,42 @@ namespace EE.Ord.IdentityServer
                 serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
 
                 var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
+                context.Database.Migrate();
+
+                if (!context.Clients.Any())
+                {
+                    foreach (var client in Config.Clients)
+                    {
+                        context.Clients.Add(client.ToEntity());
+                    }
+                    context.SaveChanges();
+                }
+
+                if (!context.IdentityResources.Any())
+                {
+                    foreach (var resource in Config.IdentityResources)
+                    {
+                        context.IdentityResources.Add(resource.ToEntity());
+                    }
+                    context.SaveChanges();
+                }
+
+                if (!context.ApiScopes.Any())
+                {
+                    foreach (var resource in Config.ApiScopes)
+                    {
+                        context.ApiScopes.Add(resource.ToEntity());
+                    }
+                    context.SaveChanges();
+                }
+
+            }
+
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
+
+                var context = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 context.Database.Migrate();
             }
         }

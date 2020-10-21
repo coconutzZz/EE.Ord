@@ -26,5 +26,9 @@
     <ProjectReference Include="..\Client\EE.Ord.Main.App.Client.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 
 </Project>

@@ -26,17 +26,6 @@ namespace EE.Ord.Main.App.Client
 
             builder.Services.AddScoped<IPatientHttpRepository, PatientHttpRepository>();
 
-            /*builder.Services.AddHttpClient("EE.Ord.Main.App.Server",
-                    client =>
-                    {
-                        client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress + "api/");
-                        //client.DefaultRequestHeaders.Add("Accept", "application/json");
-                    })
-                .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
-
-            builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
-                .CreateClient("EE.Ord.Main.App.Server"));*/
-
             builder.Services.AddOidcAuthentication(oidcOptions =>
             {
                 builder.Configuration.Bind("Local", oidcOptions.ProviderOptions);
@@ -51,7 +40,7 @@ namespace EE.Ord.Main.App.Client
             });
 
             builder.Services.AddDevExpressBlazor();
-            
+            builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
             await builder.Build().RunAsync();
         }
     }

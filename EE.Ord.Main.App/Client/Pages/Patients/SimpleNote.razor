@@ -1,0 +1,27 @@
+﻿@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<App> Localize
+
+@page "/simple-note"
+
+<DxFormLayout CaptionPosition="CaptionPosition.Vertical">
+    <DxFormLayoutItem Caption="@Localize["Title"]" ColSpanLg="4" ColSpanMd="12">
+        <Template>
+            <DxTextBox @bind-Text="@Title"></DxTextBox>
+        </Template>
+    </DxFormLayoutItem>
+
+    <DxFormLayoutItem Caption="@Localize["Content"]" ColSpanMd="12">
+        <Template>
+            <DxMemo @bind-Text="@Content"
+                     Rows="10"
+                     Columns="50">
+            </DxMemo>
+        </Template>
+    </DxFormLayoutItem>
+</DxFormLayout>
+
+
+@code {
+    public string Title { get; set; }
+    public string Content { get; set; }
+}

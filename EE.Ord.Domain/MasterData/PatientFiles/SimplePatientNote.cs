@@ -16,5 +16,7 @@ namespace EE.Ord.Domain.MasterData.PatientFiles
 
         [Required]
         public string Content { get; set; }
+
+        public Patient Patient { get; set; }
     }
 }

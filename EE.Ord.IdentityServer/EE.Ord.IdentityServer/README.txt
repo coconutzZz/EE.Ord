@@ -1,0 +1,1 @@
+dotnet ef migrations add AspNetIdentity -c ApplicationDbContext -o Data/Migrations/IdentityServer/ApplicationDb

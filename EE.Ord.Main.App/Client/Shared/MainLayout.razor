@@ -1,37 +1,62 @@
 ﻿@inherits LayoutComponentBase
-@inject NavigationManager Navigation
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@inject SignOutSessionStateManager SignOutManager
-<div class="sidebar">
-</div>
+@using Microsoft.Extensions.Localization
 
-<div class="main">
-    <div class="top-row px-4">
-        <DxButton Click="@Login" RenderStyle="ButtonRenderStyle.None" RenderStyleMode="ButtonRenderStyleMode.Contained" Text="None" SizeMode="SizeMode.Small" />
-        <a href="/claims" target="_blank" class="ml-md-auto">About</a>
-        
+@inject NavigationManager Navigation
+@inject SignOutSessionStateManager SignOutManager
+@inject IStringLocalizer<App> Localize
+
+<nav class="logo-container p-0 navbar navbar-dark">
+    <LayoutToggleButton @bind-StateCssClass="@LayoutStateCssClass" />
+    <NavLink class="logo-image text-body" href="" Match="NavLinkMatch.All"/>
+    <div class="d-flex">
         <AuthorizeView>
             <Authorized>
-                <a href="authentication/profile">Hello, @context.User.Identity.Name!</a>
-              
-                <button class="nav-link btn btn-link" @onclick="BeginSignOut">
-                    Log out
+                <span>@context.User.Identity.Name</span>
+                <button class="download-btn navbar-toggler d-inline-block bg-primary text-white border-0" @onclick="BeginSignOut">
+                    @Localize["Log out"]
                 </button>
             </Authorized>
+            @*
             <NotAuthorized>
-                <a href="authentication/register">Register</a>
-                <a href="authentication/login">Log in</a>
+                <a class="download-btn navbar-toggler d-inline-block bg-primary text-white border-0" href="authentication/login">Log in</a>
             </NotAuthorized>
+            *@
         </AuthorizeView>
     </div>
-
-    <div class="content px-4">
-        @Body
+</nav>
+<div class="content @LayoutStateCssClass">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+    <div @ref="@mainRef" class="main">
+        <div class="content px-4">
+            <CascadingValue Value="@ThemeName" Name="ThemeName">
+                @Body
+            </CascadingValue>
+        </div>
     </div>
 </div>
-
+<Footer />
 @code
 {
+    ElementReference mainRef;
+    string ThemeName = "Default";
+
+    string _layoutStateCssClass;
+
+    string LayoutStateCssClass
+    {
+        get => _layoutStateCssClass;
+        set
+        {
+            if (_layoutStateCssClass != value)
+            {
+                _layoutStateCssClass = value;
+            }
+        }
+    }
+    
     private void Login()
     {
         Navigation.NavigateTo($"authentication/login?returnUrl=" +
