@@ -9,5 +9,8 @@ namespace EE.Ord.Main.App.Client.HttpRepository
     public interface IPatientHttpRepository
     {
         Task<IList<Patient>> GetPatients();
+
+        Task<IQueryable<Patient>> SearchPatient(string insuranceNumber, string firstName, string lastName,
+            DateTime? dateOfBirth);
     }
 }

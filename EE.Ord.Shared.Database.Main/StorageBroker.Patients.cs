@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using EE.Ord.Domain.MasterData;
+using EE.Ord.Infrastructure.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -27,6 +30,17 @@ namespace EE.Ord.Shared.Database.Main
         {
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             return await Patients.FindAsync(patientId);
+        }
+
+        public IQueryable<Patient> FindPatient(Patient patient)
+        {
+            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+
+            IQueryable<Patient> patientResult = Patients.AsQueryable().Where(x => x.InsuranceNumber.ToString().Contains(patient.InsuranceNumber.ToString()))
+                                                    .Where(x => x.FirstName.StartsWith(patient.FirstName))
+                                                    .Where(x => x.LastName.StartsWith(patient.LastName));
+
+            return patientResult;
         }
 
 

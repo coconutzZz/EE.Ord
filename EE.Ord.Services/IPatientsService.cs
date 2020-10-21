@@ -14,5 +14,6 @@ namespace EE.Ord.Services
         ValueTask<Patient> ModifyPatientAsync(Patient patient);
         ValueTask<Patient> DeletePatientAsync(Guid patientId);
         IQueryable<Patient> RetrieveAllPatients();
+        IQueryable<Patient> FindPatient(Patient patient);
     }
 }

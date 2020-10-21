@@ -1,17 +1,47 @@
-﻿@page "/"
-@using EE.Ord.Domain.MasterData
-@using EE.Ord.Main.App.Client.HttpRepository
+﻿@layout EmptyLayout
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Microsoft.Extensions.Localization
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.Extensions.Localization
 
+@inject NavigationManager Navigation
+@inject IStringLocalizer<App> Localize
 
-@inject IPatientHttpRepository PatientHttpRepository
+@page "/"
 
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+        <NavLink href="startdialog">@Localize["Start eCard dialog"]</NavLink>
+    </div>
+</div>
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+        <NavLink @onclick="NavigateToLogin">@Localize["Login"]</NavLink>
+    </div>
+</div>
 
-<h1>Hello, world!</h1>
+@*
+<AuthorizeView>
+    <Authorized>
 
+    </Authorized>
+    <NotAuthorized>
+        <RedirectToLogin></RedirectToLogin>
+    </NotAuthorized>
+</AuthorizeView>
+    *@
 
 @code {
 
+    private void NavigateToLogin()
+    {
+        Navigation.NavigateTo($"authentication/login?returnUrl=" +
+                              Uri.EscapeDataString(Navigation.Uri));
+    }
     /*
+     
+@inject IPatientHttpRepository PatientHttpRepository
+
     IList<Patient> _patients;
 
     protected override async Task OnInitializedAsync()

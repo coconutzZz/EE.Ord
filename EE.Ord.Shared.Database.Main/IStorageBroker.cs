@@ -13,6 +13,7 @@ namespace EE.Ord.Shared.Database.Main
         public ValueTask<Patient> SelectPatientByIdAsync(Guid patientId);
         public ValueTask<Patient> UpdatePatientAsync(Patient patient);
         public ValueTask<Patient> DeletePatientAsync(Patient patient);
+        public IQueryable<Patient> FindPatient(Patient patient);
 
 
         public ValueTask<SimplePatientNote> InsertSimplePatientNoteAsync(SimplePatientNote simplePatientNote);

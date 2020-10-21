@@ -1,20 +1,22 @@
 ﻿@page
 @model EE.Ord.IdentityServer.Pages.LoggedOutModel
 
-<div class="logged-out-page">
-    <h1>
-        Logout
-        <small>You are now logged out</small>
-    </h1>
+<div class="col-md-4 offset-md-6 mt-md-5">
+    <div class="logged-out-page">
+        <h1>
+            Logout
+            <small>You are now logged out</small>
+        </h1>
 
-    @if (Model.PostLogoutRedirectUri != null)
-    {
-        <div>
-            Click <a class="PostLogoutRedirectUri" href="@Model.PostLogoutRedirectUri">here</a> to return to the
-            <span>@Model.ClientName</span> application.
-        </div>
-    }
+        @if (Model.PostLogoutRedirectUri != null)
+        {
+            <div>
+                Click <a class="PostLogoutRedirectUri" href="@Model.PostLogoutRedirectUri">here</a> to return to the
+                <span>@Model.ClientName</span> application.
+            </div>
+        }
 
+    </div>
 </div>
 
 @section scripts

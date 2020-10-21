@@ -334,3 +334,4 @@ BuildOutput/
 
 # Sqlite DB
 *.db
+*.db

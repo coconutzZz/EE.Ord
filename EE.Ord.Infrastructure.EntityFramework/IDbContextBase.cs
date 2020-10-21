@@ -12,6 +12,5 @@ namespace EE.Ord.Infrastructure.EntityFramework
         int SaveChanges();
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken());
         DbSet<TEntity> Set<TEntity>() where TEntity : class;
-        DbQuery<TEntity> Query<TEntity>() where TEntity : class;
     }
 }

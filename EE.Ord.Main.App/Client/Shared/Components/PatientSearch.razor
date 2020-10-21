@@ -1,36 +1,69 @@
 ﻿@using Microsoft.Extensions.Localization
+@using EE.Ord.Domain.MasterData
+@using EE.Ord.Main.App.Client.HttpRepository
 @inject IStringLocalizer<App> Localize
+@inject IPatientHttpRepository PatientHttpRepository
 
-<DxFormLayout>
-    <DxFormLayoutGroup Caption="@Localize["Find patient"]" ColSpanMd="12">
-        <DxFormLayoutItem Caption="@Localize["Insurance number"]" ColSpanMd="6">
-            <Template>
-                <DxTextBox @bind-Text="@InsuranceNumber"></DxTextBox>
-            </Template>
-        </DxFormLayoutItem>
+<div class="row">
+    <DxFormLayout>
+        <DxFormLayoutGroup Caption="@Localize["Find patient"]" ColSpanMd="12">
+            <DxFormLayoutItem Caption="@Localize["Insurance number"]" ColSpanMd="6">
+                <Template>
+                    <DxTextBox @bind-Text="@InsuranceNumber"></DxTextBox>
+                </Template>
+            </DxFormLayoutItem>
 
-        <DxFormLayoutItem Caption="@Localize["First Name"]" ColSpanMd="6">
-            <Template>
-                <DxTextBox @bind-Text="@FirstName"></DxTextBox>
-            </Template>
-        </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="@Localize["First Name"]" ColSpanMd="6">
+                <Template>
+                    <DxTextBox @bind-Text="@FirstName"></DxTextBox>
+                </Template>
+            </DxFormLayoutItem>
 
-        <DxFormLayoutItem Caption="@Localize["Last Name"]" ColSpanMd="6">
-            <Template>
-                <DxTextBox @bind-Text="@LastName"></DxTextBox>
-            </Template>
-        </DxFormLayoutItem>
+            <DxFormLayoutItem Caption="@Localize["Last Name"]" ColSpanMd="6">
+                <Template>
+                    <DxTextBox @bind-Text="@LastName"></DxTextBox>
+                </Template>
+            </DxFormLayoutItem>
 
-        <DxFormLayoutItem Caption="@Localize["Birth Date"]" ColSpanMd="6">
-            <Template>
-                <DxDateEdit @bind-Date="@BirthDate"></DxDateEdit>
-            </Template>
-        </DxFormLayoutItem>
-    </DxFormLayoutGroup>
-</DxFormLayout>
+            <DxFormLayoutItem Caption="@Localize["Birth Date"]" ColSpanMd="6">
+                <Template>
+                    <DxDateEdit @bind-Date="@BirthDate"></DxDateEdit>
+                </Template>
+            </DxFormLayoutItem>
+            
+            <DxFormLayoutItem ColSpanMd="12">
+                <Template>
+                    <DxButton RenderStyle="ButtonRenderStyle.Primary" RenderStyleMode="ButtonRenderStyleMode.Contained" Text="@Localize["Search"]" SizeMode="SizeMode.Medium" Click="@Search"/>
+                </Template>
+            </DxFormLayoutItem>
+        </DxFormLayoutGroup>
+    </DxFormLayout>
+</div>
+<div class="row">
+    <DxDataGrid Data="@Patients" CssClass="mw-1100">
+        <Columns>
+            <DxDataGridColumn Field="@nameof(Patient.InsuranceNumber)" />
+            <DxDataGridColumn Field="@nameof(Patient.FirstName)"/>
+            <DxDataGridColumn Field="@nameof(Patient.LastName)"/>
+            <DxDataGridColumn Field="@nameof(Patient.DateOfBirth)"/>
+        </Columns>
+    </DxDataGrid>
+</div>
+
+
+
+
 @code {
+    
     string InsuranceNumber { get; set; }
     string FirstName { get; set; } 
     string LastName { get; set; } 
     DateTime BirthDate { get; set; }
+
+    IQueryable<Patient> Patients;
+
+    async Task Search(MouseEventArgs args)
+    {
+        Patients = await PatientHttpRepository.SearchPatient(InsuranceNumber, FirstName, LastName, BirthDate);
+    }
 }

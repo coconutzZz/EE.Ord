@@ -36,5 +36,11 @@ namespace EE.Ord.Services
             IQueryable<Patient> storagePatients = _storageBroker.SelectAllPatients();
             return storagePatients;
         }
+
+        public IQueryable<Patient> FindPatient(Patient patient)
+        {
+            IQueryable<Patient> storagePatient = _storageBroker.FindPatient(patient);
+            return storagePatient;
+        }
     }
 }

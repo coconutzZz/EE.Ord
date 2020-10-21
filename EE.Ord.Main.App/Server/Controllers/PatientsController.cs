@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EE.Ord.Main.App.Server.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class PatientsController
     {
         private readonly IPatientsService _patientsService;
@@ -23,6 +23,12 @@ namespace EE.Ord.Main.App.Server.Controllers
         public IEnumerable<Patient> Index()
         {
             return _patientsService.RetrieveAllPatients();
+        }
+
+        [HttpPost]
+        public IQueryable<Patient> Find(Patient patient)
+        {
+            return _patientsService.FindPatient(patient);
         }
     }
 }

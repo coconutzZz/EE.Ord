@@ -1,0 +1,53 @@
+﻿@page "/startdialog"
+
+<Wizard Progress="@Progress" ButtonsHidden="true" 
+        GoToPreviousStep="@GoToPreviousStep" GoToNextStep="@GoToNextStep">
+
+    <WizardStepCard WizardStep="1" CurrentStep="@CurrentStep"
+                    CardHeader="Step 1 of 7"
+                    CardTitle="Cardreader"
+                    CardText="Please select card reader">
+        <DxComboBox Data="@CardReaders"
+                    @bind-Value="@SelectedCardReader" >
+        </DxComboBox>
+    </WizardStepCard>
+    
+    @if (!string.IsNullOrEmpty(SelectedCardReader))
+    {
+        <WizardStepCard WizardStep="2" CurrentStep="@CurrentStep"
+                        CardHeader="Step 2 of 7"
+                        CardTitle="Enter PIN"
+                        CardText="Please enter pin">
+
+        </WizardStepCard>
+    }
+
+</Wizard>
+@code {
+    public int CurrentStep { get; set; }
+    public int Progress { get; set; }
+
+    public string SelectedCardReader { get; set; }
+
+    public IList<string> CardReaders = new List<string> { "KR1", "KR2", "KR3" };
+
+    protected override async Task OnInitializedAsync()
+    {
+        CurrentStep = 1;
+        Progress = 0;
+    }
+
+    public void GoToPreviousStep()
+    {
+        if (CurrentStep > 1)
+        {
+            CurrentStep -= 1;
+        }
+    }
+
+    public void GoToNextStep()
+    {
+        CurrentStep += 1;
+    }
+    
+}

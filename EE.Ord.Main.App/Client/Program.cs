@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Text;
 using EE.Ord.Main.App.Client.HttpRepository;
+using EE.Ord.Main.App.Client.Infrastructure;
 using EE.Ord.Main.App.Client.Shared;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -38,6 +39,8 @@ namespace EE.Ord.Main.App.Client
                     });
                 });
             });
+
+            builder.Services.AddInMemoryCache();
 
             builder.Services.AddDevExpressBlazor();
             builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
